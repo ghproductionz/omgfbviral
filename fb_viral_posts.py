@@ -6,7 +6,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Long-lived access token stored in the app
-ACCESS_TOKEN = 'YOUR_LONG_LIVED_ACCESS_TOKEN'  # Replace with your actual token
+ACCESS_TOKEN = 'EAAOikNxgJ0IBOwTQvirA5BrXf3lGIDR8USPNvL98dONweCojImBULraQ3ENY1vpRooK85AU81aKJPhP59HxSBP3OtkIXYTmD1vHkDf05afAU267sLcw5NjayLqja7ZBQYXYKSdbk3OjArxFeqZBFZBjHZAdK01eAmAr8ExteEGsVZA67JjKLSQlZAmE8V5tOK9ogZDZD'  # Replace with your actual token
 
 @app.route('/')
 def index():
@@ -76,4 +76,4 @@ def get_viral_posts():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
