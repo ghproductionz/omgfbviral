@@ -41,9 +41,9 @@
         <thead>
             <tr>
                 <th onclick="sortTable(0)">Page ID</th>
-                <th onclick="sortTable(1)">Message</th>
-                <th onclick="sortTable(2)">Like Count</th>
-                <th>Link</th>
+                <th onclick="sortTable(1)">Link</th>
+                <th onclick="sortTable(2)">Message</th>
+                <th onclick="sortTable(3)">Like Count</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -64,9 +64,9 @@
                     data.viral_posts.forEach(post => {
                         tbody.append(`<tr>
                             <td>${post.page_id}</td>
+                            <td><a href="${post.permalink_url}" target="_blank">View</a></td>
                             <td>${post.message}</td>
                             <td>${post.like_count}</td>
-                            <td><a href="${post.permalink_url}" target="_blank">View</a></td>
                         </tr>`);
                     });
                 } else {
