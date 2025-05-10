@@ -17,13 +17,16 @@
         th {
             cursor: pointer;
         }
+        #loading {
+            display: none;
+            font-size: 18px;
+            color: blue;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <h2>FB Viral Posts Finder</h2>
-    <p><strong>Ghana:</strong>TheGhanaWeb, TV3GH , citi973 , JoyNewsOnTV , utvghana , dailygraphicghana ,ghpagenews </p>
-     <p><strong>World:</strong>DailyMail,LADbible,NYPost,MetroUK,dailymirror,complex</p>
-     <p><strong>Sports:</strong>ESPNFC,fifaworldcup,ghanafaofficial </p>
     <form id="fetchForm">
         <label>Page IDs (comma-separated):</label>
         <input type="text" id="page_ids" placeholder="ESPN, NBA" required>
@@ -33,6 +36,7 @@
         <input type="number" id="like_threshold" value="1000" min="0" required>
         <button type="submit">Fetch Viral Posts</button>
     </form>
+    <div id="loading">Loading...</div>
     <table id="resultTable">
         <thead>
             <tr>
@@ -47,11 +51,13 @@
     <script>
         $('#fetchForm').on('submit', function (e) {
             e.preventDefault();
+            $('#loading').show();
             $.post('/get_viral_posts', {
                 page_ids: $('#page_ids').val(),
                 date: $('#date').val(),
                 like_threshold: $('#like_threshold').val()
             }, function (data) {
+                $('#loading').hide();
                 if (data.status === 'success') {
                     const tbody = $('#resultTable tbody');
                     tbody.empty();
@@ -66,6 +72,9 @@
                 } else {
                     alert('Error: ' + data.message);
                 }
+            }).fail(function () {
+                $('#loading').hide();
+                alert('Error fetching data.');
             });
         });
 
