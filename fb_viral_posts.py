@@ -6,7 +6,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Long-lived access token stored in the app
-ACCESS_TOKEN = 'EAAOikNxgJ0IBOwTQvirA5BrXf3lGIDR8USPNvL98dONweCojImBULraQ3ENY1vpRooK85AU81aKJPhP59HxSBP3OtkIXYTmD1vHkDf05afAU267sLcw5NjayLqja7ZBQYXYKSdbk3OjArxFeqZBFZBjHZAdK01eAmAr8ExteEGsVZA67JjKLSQlZAmE8V5tOK9ogZDZD'  # Replace with your actual token
+ACCESS_TOKEN = 'YOUR_LONG_LIVED_ACCESS_TOKEN'  # Replace with your actual token
 
 @app.route('/')
 def index():
@@ -33,35 +33,38 @@ def get_viral_posts():
         # Iterate over each page ID
         for page_id in page_ids:
             page_id = page_id.strip()
-
-            # Fetch posts from the page
             url = f'https://graph.facebook.com/v17.0/{page_id}/posts'
             params = {
                 'access_token': ACCESS_TOKEN,
                 'fields': 'id,message,permalink_url,likes.summary(true)',
                 'since': date_from,
-                'until': date_to
+                'until': date_to,
+                'limit': 100  # Set the maximum number of posts per request
             }
 
-            response = requests.get(url, params=params)
-            data = response.json()
+            while url:
+                response = requests.get(url, params=params)
+                data = response.json()
 
-            # Check for errors from Facebook API
-            if 'error' in data:
-                return jsonify({'status': 'error', 'message': data['error']['message']}), 500
+                # Check for errors from Facebook API
+                if 'error' in data:
+                    return jsonify({'status': 'error', 'message': data['error']['message']}), 500
 
-            # Process each post
-            for post in data.get('data', []):
-                post_id = post['id']
-                like_count = post.get('likes', {}).get('summary', {}).get('total_count', 0)
+                # Process each post
+                for post in data.get('data', []):
+                    post_id = post['id']
+                    like_count = post.get('likes', {}).get('summary', {}).get('total_count', 0)
 
-                if like_count >= like_threshold:
-                    viral_posts.append({
-                        'page_id': page_id,
-                        'message': post.get('message', 'No text content'),
-                        'permalink_url': post['permalink_url'],
-                        'like_count': like_count
-                    })
+                    if like_count >= like_threshold:
+                        viral_posts.append({
+                            'page_id': page_id,
+                            'message': post.get('message', 'No text content'),
+                            'permalink_url': post['permalink_url'],
+                            'like_count': like_count
+                        })
+
+                # Check if there is a next page of results
+                url = data.get('paging', {}).get('next', None)
 
         # If no viral posts are found
         if not viral_posts:
@@ -73,5 +76,4 @@ def get_viral_posts():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
-    
+    app.run(debug=True)
