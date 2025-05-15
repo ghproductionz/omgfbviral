@@ -5,28 +5,78 @@
     <title>FB Viral Posts Finder</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #F34A2E;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background-color: #F34A2E;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d43b26;
+        }
+        #loading {
+            font-size: 18px;
+            color: #F34A2E;
+            text-align: center;
+            margin: 10px 0;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
         th, td {
-            padding: 8px;
+            padding: 12px;
             text-align: left;
-            border: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
         }
         th {
+            background-color: #F34A2E;
+            color: white;
             cursor: pointer;
         }
-        #loading {
-            display: none;
-            font-size: 18px;
-            color: blue;
-            margin-top: 10px;
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        a {
+            color: #F34A2E;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h2>FB Viral Posts Finder</h2>
+    <h2>OMGVoice FB Viral Posts Finder</h2>
      <p><strong>Ghana:</strong>TheGhanaWeb, TV3GH , citi973 , JoyNewsOnTV , utvghana , dailygraphicghana ,ghpagenews,pulseghana </p>
      <p><strong>World:</strong>DailyMail,LADbible,NYPost,MetroUK,dailymirror,complex</p>
      <p><strong>Sports:</strong>ESPNFC,fifaworldcup </p>
